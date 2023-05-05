@@ -10,6 +10,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -76,7 +77,24 @@ public class DocenteController {
 		return ResponseEntity.ok(salida);
 	}
 	
-
+	@PutMapping
+	@ResponseBody
+	public ResponseEntity<Map<String, Object>> actualizaDocente(@RequestBody Docente obj) {
+		Map<String, Object> salida = new HashMap<>();
+		try {
+			Docente objSalida = docenteService.insertaActualizaDocente(obj);
+			if (objSalida == null) {
+				salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
+			} else {
+				salida.put("mensaje", Constantes.MENSAJE_REG_EXITOSO);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
+		}
+		return ResponseEntity.ok(salida);
+	}
+	
 }
 
 
