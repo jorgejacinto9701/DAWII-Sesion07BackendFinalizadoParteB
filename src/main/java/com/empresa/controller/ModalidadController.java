@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.empresa.entity.Modalidad;
 import com.empresa.service.ModalidadService;
-import com.empresa.util.Constantes;
 
 @RestController
 @RequestMapping("/url/modalidad")
