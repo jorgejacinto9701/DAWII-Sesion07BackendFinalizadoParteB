@@ -1,11 +1,13 @@
 package com.empresa.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,19 +37,18 @@ public class ModalidadController {
 
 	@PostMapping
 	@ResponseBody
-	public ResponseEntity<Map<String, Object>> insertaModalidad(@RequestBody Modalidad obj) {
+	public  ResponseEntity<?> insertaModalidad( @RequestBody Modalidad obj, Errors errors){
 		Map<String, Object> salida = new HashMap<>();
-		try {
-			Modalidad objSalida = modalidadService.insertaActualizaModalidad(obj);
-			if (objSalida == null) {
-				salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
-			} else {
-				salida.put("mensaje", Constantes.MENSAJE_REG_EXITOSO);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			salida.put("mensaje", Constantes.MENSAJE_REG_ERROR);
+		List<String> lstMensajes = new ArrayList<>();
+		salida.put("errores", lstMensajes);
+
+		Modalidad objSalida = modalidadService.insertaActualizaModalidad(obj);
+		if (objSalida == null) {
+			lstMensajes.add("Error en el registro");
+		}else {
+			lstMensajes.add("Se registró la modalidad de ID ==> " + objSalida.getIdModalidad());
 		}
+		
 		return ResponseEntity.ok(salida);
 	}
 
